@@ -48,7 +48,7 @@
 | A2 | Average load | 3 | 1.284898 | 358.6 ms | 378.85 ms | 0.00% | 100.00% |
 | A3 | Stress | 5 | 2.138237 | 365.11 ms | 492.01 ms | 0.00% | 100.00% |
 | A4 | Spike | 5 | 1.048369 | 362.85 ms | 376.08 ms | 0.00% | 100.00% |
-| A5 | Soak | 2 | | | | | |
+| A5 | Soak | 2 | 0.97777 | 372 ms | 391.48 ms | 0.00% | 100.00% |
 
 ### A4 spike observation
 
@@ -58,3 +58,18 @@ During the spike, p(95) increased modestly to approximately
 The estimated recovery time was about 30 seconds.
 This estimate is approximate because the pre-spike response
 times fluctuated. No requests failed, and all checks passed.
+
+### A5 soak observation
+
+Response times fluctuated but showed no sustained upward
+trend from the first minutes to the last minutes.
+Average response times stayed around 275–300 ms, while
+p(95) fluctuated around 310–380 ms.
+Across the entire run, p(95) was 372 ms, the failure rate
+was 0%, and all checks passed.
+
+No performance degradation was observed during this
+11-minute test. However, this short test cannot rule out
+long-term problems. A soak test lasting several hours
+could reveal a memory leak that gradually consumes
+memory and causes slower responses or failures.
