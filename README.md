@@ -47,5 +47,14 @@
 | A1 | Smoke | 1 | 0.477173 | 369.95 ms | 388.38 ms | 0.00% | 100.00% |
 | A2 | Average load | 3 | 1.284898 | 358.6 ms | 378.85 ms | 0.00% | 100.00% |
 | A3 | Stress | 5 | 2.138237 | 365.11 ms | 492.01 ms | 0.00% | 100.00% |
-| A4 | Spike | 5 | | | | | |
+| A4 | Spike | 5 | 1.048369 | 362.85 ms | 376.08 ms | 0.00% | 100.00% |
 | A5 | Soak | 2 | | | | | |
+
+### A4 spike observation
+
+During the spike, p(95) increased modestly to approximately
+350–370 ms. After the load returned to 1 VU at around
+00:25:49, p(95) returned to approximately 320 ms by 00:26:19.
+The estimated recovery time was about 30 seconds.
+This estimate is approximate because the pre-spike response
+times fluctuated. No requests failed, and all checks passed.
