@@ -1,4 +1,3 @@
-# k6-lab
 # K6 lab results
 
 ## Part 0
@@ -73,3 +72,75 @@ No performance degradation was observed during this
 long-term problems. A soak test lasting several hours
 could reveal a memory leak that gradually consumes
 memory and causes slower responses or failures.
+
+## Part B
+
+1. The results for Steps A1–A5 are recorded in the Part A
+   results table above.
+
+2. In Step 0.2, each virtual user waited for the HTTP response
+   and then slept for 1 second before starting another iteration.
+   The average iteration duration was 1.29 seconds, so 5 VUs
+   produced 3.803281 requests/s rather than 5 requests/s.
+
+3. The overall p(95) increased from 358.6 ms in the average-load
+   test to 365.11 ms in the stress test, an increase of about 1.8%.
+   Both tests had a 0% failure rate and passed all thresholds.
+   This is consistent with the tested loads being within the
+   system's operational envelope. However, these small tests
+   cannot establish its capacity limit, and the small difference
+   could also reflect network or shared-server variation.
+
+4. From the spike report, p(95) returned to approximately
+   320 ms about 30 seconds after the load returned to 1 VU.
+   This is an approximate visual estimate because response
+   times fluctuated before and after the spike.
+   No requests failed.
+
+5. The soak test showed no sustained increase in response time.
+   Overall p(95) was 372 ms, and the failure rate was 0%.
+   A longer soak test could reveal a memory leak that gradually
+   consumes memory and eventually causes slow responses or failures.
+
+6. The average can hide a small proportion of slow requests.
+   The p(95) describes the response-time boundary for approximately
+   95% of requests, making it more useful for checking how
+   consistently users receive fast responses.
+   It still does not describe the slowest 5% completely.
+
+7. First, internet latency and network congestion can differ
+   from those of a controlled lab network.
+   Second, other users generate unpredictable traffic on the
+   public site, whereas background load in a lab can be controlled.
+
+8. Large tests can overload a shared site, disrupt other users,
+   and consume resources without the owner's permission.
+   Such tests require ownership or explicit written permission.
+   This lab therefore limits QuickPizza tests to at most 5 VUs.
+
+9. Example application: a food-delivery app.
+
+   Vague requirement:
+   "The restaurant list should load quickly."
+
+   Testable requirement:
+   "With 3 concurrent users requesting the restaurant-list API
+   for 30 seconds, at least 95% of requests must finish in less
+   than 1 second, at least 99% in less than 1.5 seconds,
+   and fewer than 1% of requests may fail."
+
+   K6 configuration:
+
+   ```javascript
+   export const options = {
+     vus: 3,
+     duration: '30s',
+     thresholds: {
+       http_req_duration: ['p(95)<1000', 'p(99)<1500'],
+       http_req_failed: ['rate<0.01'],
+     },
+   };
+   ```
+
+   This configuration applies to a script that requests only
+   the restaurant-list API and checks the expected response.
