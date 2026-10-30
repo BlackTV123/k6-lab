@@ -27,3 +27,15 @@
   - Modified run: p(95)=383.61 ms, p(99)=432.07 ms,
     failure rate=0%.
   - The p(95)<100 threshold failed; exit code=99.
+
+- Step 0.8:
+  - The request used lowercase 'pepperoni' and 'knife',
+    but the API expects the case-sensitive names
+    'Pepperoni' and 'Knife'.
+  - Before the fix: the no-pepperoni check failed 3/75 times,
+    and the no-knife check failed 31/75 times.
+  - After the fix: all 225 checks passed across 75 requests.
+  - Repeated requests exposed the problem because random
+    recommendations sometimes included the unwanted items.
+    One manual request could miss it by chance.
+  - Status 200 alone did not guarantee a correct recommendation.
